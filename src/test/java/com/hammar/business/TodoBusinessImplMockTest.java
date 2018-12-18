@@ -1,0 +1,64 @@
+package com.hammar.business;
+
+import static org.junit.Assert.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
+import java.util.Arrays;
+import java.util.List;
+
+import org.junit.Test;
+
+import com.hammar.data.api.TodoService;
+
+public class TodoBusinessImplMockTest {
+
+	@Test
+	public void testRetrieveTodosRelatedToSpring_SizeCheck() {
+
+		TodoService todoServiceMock = mock(TodoService.class);
+		TodoBusinessImpl todoBusinessImpl = new TodoBusinessImpl(todoServiceMock);
+		List<String> todos = Arrays.asList("Learn Spring MVC", "Learn Spring", "Learn to dance",
+				"Go shopping for shoes", "Learn Spring boot");
+
+		when(todoServiceMock.retrieveTodos("Dummy")).thenReturn(todos);
+
+		List<String> filteredTodos = todoBusinessImpl.retrieveTodosRelatedToSpring("Dummy");
+
+		assertEquals(3, filteredTodos.size());
+
+	}
+
+	@Test
+	public void testRetrieveTodosRelatedToSpring_SizeCheck2() {
+
+		TodoService todoServiceMock = mock(TodoService.class);
+		TodoBusinessImpl todoBusinessImpl = new TodoBusinessImpl(todoServiceMock);
+		List<String> todos = Arrays.asList();
+
+		when(todoServiceMock.retrieveTodos("Dummy")).thenReturn(todos);
+
+		List<String> filteredTodos = todoBusinessImpl.retrieveTodosRelatedToSpring("Dummy");
+
+		assertEquals(0, filteredTodos.size());
+
+	}
+
+	// "Learn Spring MVC","Learn Spring","Learn Spring boot"
+	@Test
+	public void testRetrieveTodosRelatedToSpring_CorrectTodos() {
+		TodoService todoServiceMock = mock(TodoService.class);
+		TodoBusinessImpl todoBusinessImpl = new TodoBusinessImpl(todoServiceMock);
+		List<String> todos = Arrays.asList("Learn Spring MVC", "Learn Spring", "Learn to dance",
+				"Go shopping for shoes", "Learn Spring boot");
+
+		when(todoServiceMock.retrieveTodos("Dummy")).thenReturn(todos);
+
+		List<String> filteredTodos = todoBusinessImpl.retrieveTodosRelatedToSpring("Dummy");
+
+		assertEquals("Learn Spring MVC", filteredTodos.get(0));
+		assertEquals("Learn Spring", filteredTodos.get(1));
+		assertEquals("Learn Spring boot", filteredTodos.get(2));
+	}
+
+}
