@@ -11,4 +11,9 @@ public class TodoServiceStub implements TodoService {
 				"Learn to dance", "Go shopping for shoes", "Learn Spring boot");
 	}
 
+	public void deleteTodo(String todo) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
