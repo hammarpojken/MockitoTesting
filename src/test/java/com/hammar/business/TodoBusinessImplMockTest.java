@@ -1,6 +1,8 @@
 package com.hammar.business;
 
+import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
+import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import java.util.Arrays;
@@ -56,6 +58,26 @@ public class TodoBusinessImplMockTest {
 		assertEquals("Learn Spring MVC", filteredTodos.get(0));
 		assertEquals("Learn Spring", filteredTodos.get(1));
 		assertEquals("Learn Spring boot", filteredTodos.get(2));
+	}
+	
+	@Test
+	public void testRetrieveTodosRelatedToSpring_usingBDD() {
+		
+		//Given
+		TodoService todoServiceMock = mock(TodoService.class);
+		List<String> todos = Arrays.asList("Learn Spring MVC", "Learn Spring", "Learn to dance",
+				"Go shopping for shoes", "Learn Spring boot");
+		
+		given(todoServiceMock.retrieveTodos("Dummy")).willReturn(todos);
+		TodoBusinessImpl todoBusinessImpl = new TodoBusinessImpl(todoServiceMock);
+		
+		//When
+		List<String> filteredTodos = todoBusinessImpl.retrieveTodosRelatedToSpring("Dummy");
+		
+		//Then
+		
+		assertThat(filteredTodos.size(), is(3));
+
 	}
 
 }
