@@ -3,12 +3,9 @@ package com.hammar.business;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-
 import java.util.Arrays;
 import java.util.List;
-
 import org.junit.Test;
-
 import com.hammar.data.api.TodoService;
 
 public class TodoBusinessImplMockTest {
