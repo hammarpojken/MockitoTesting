@@ -12,6 +12,8 @@ import static org.mockito.Mockito.when;
 import java.util.Arrays;
 import java.util.List;
 import org.junit.Test;
+import org.mockito.ArgumentCaptor;
+
 import com.hammar.data.api.TodoService;
 
 public class TodoBusinessImplMockTest {
@@ -109,6 +111,30 @@ public class TodoBusinessImplMockTest {
 		
 		//verify(todoServiceMock, times(1)).deleteTodo("Learn to dance");
 		then(todoServiceMock).should(times(1)).deleteTodo("Learn to dance");
+		
+	}
+	@Test
+	public void testDeleteTodosNotRelatedToSpring_usingBDD_CaptureArguments() {
+		//Declare Argument Captor
+		ArgumentCaptor<String> argCaptor = ArgumentCaptor.forClass(String.class);
+		
+		//Define Argument captor on specific method call
+		//Given
+		TodoService todoServiceMock = mock(TodoService.class);
+		List<String> todos = Arrays.asList("Learn Spring MVC", "Learn Spring", "Learn to dance",
+				"Learn Spring boot");
+		
+		given(todoServiceMock.retrieveTodos("Dummy")).willReturn(todos);
+		TodoBusinessImpl todoBusinessImpl = new TodoBusinessImpl(todoServiceMock);
+		
+		//When
+		todoBusinessImpl.deleteTodosNotRelatedToSpring("Dummy");
+		
+		//Then
+		then(todoServiceMock).should().deleteTodo(argCaptor.capture());
+		
+		assertThat(argCaptor.getValue(), is("Learn to dance"));
+		
 		
 	}
 
