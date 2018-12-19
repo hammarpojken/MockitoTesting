@@ -1,8 +1,10 @@
 package com.hammar.mockito;
 
+import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
+import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.anyInt;
 
 import java.util.List;
@@ -41,6 +43,18 @@ public class JavaListMockTest {
 		when(listMock.get(0)).thenReturn("Stubbing the value");
 		
 		assertEquals("Stubbing the value", listMock.get(0));
+	}
+	
+	@Test
+	public void testListMock_GetUsingBDD() {
+		
+		//Given
+		List listMock = mock(List.class);
+		given(listMock.get(0)).willReturn("Stubbing the value");
+		//When
+		Object result = listMock.get(0);
+		//Then
+		assertThat(result.toString(), is("Stubbing the value"));
 	}
 	
 	@Test(expected=RuntimeException.class)
