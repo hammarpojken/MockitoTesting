@@ -3,6 +3,10 @@ package com.hammar.powermock;
 import java.util.ArrayList;
 import java.util.List;
 
+interface Dependency {
+	List<Integer> retrieveAllStats();
+}
+
 public class SystemUnderTest {
 	private Dependency dependency;
 
