@@ -25,12 +25,12 @@ import org.mockito.runners.MockitoJUnitRunner;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
+import org.powermock.reflect.Whitebox;
 
 import com.hammar.data.api.TodoService;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest(UtilityClass.class)
-public class MockingStaticMethodTest {
+public class MockingPrivateMethodTest {
 	
 	@Mock
 	Dependency dependency;
@@ -40,27 +40,17 @@ public class MockingStaticMethodTest {
 
 
 	@Test
-	public void testSystemUnderTest_StaticMethod() {
+	public void testSystemUnderTest_StaticMethod() throws Exception {
 		
 		List<Integer> stats = Arrays.asList(1,2,3);
 		
 		when(dependency.retrieveAllStats()).thenReturn(stats);
+
+		//Using whitebox to mock a private method
+		long result = Whitebox.invokeMethod(systemUnderTest, "privateMethodUnderTest");
 		
-		//setting up the class for mocking/stubing static method
-		PowerMockito.mockStatic(UtilityClass.class);
-		
-		when(UtilityClass.staticMethod(6)).thenReturn(150);
-		
-		int result =systemUnderTest.methodCallingAStaticMethod();
-		
-		assertEquals(150, result);
-		
-		
-		//verifying that a static method is called using PowerMock
-		PowerMockito.verifyStatic();
-		UtilityClass.staticMethod(6);
-		
-		
+		assertEquals(6, result);
+	
 	}
 	
 }
